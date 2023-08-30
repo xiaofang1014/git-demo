@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JS获取天气信息示例</title>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', ' https://api.map.baidu.com/weather/v1/?district_id=222405&data_type=all&ak=sBapondn9NnQkhbdfkmcXHKYR6n7LCh8');
+
+        var data = JSON.parse(xhr.responseText);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                console.log(data);
+                var weather = data.weather[0].description;
+                document.getElementById('weather').innerHTML = weather;
+            }
+            else {
+                console.log('请求失败。');
+            }
+        };
+        xhr.send();
+    </script>
+</head>
+
+<body>
+    <p>今天的天气是：<span id="weather"></span></p>
+</body>
+
+</html>

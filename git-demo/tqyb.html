@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>天气预报</title>
+
+</head>
+<style>
+    .weather {
+        width: 300px;
+        height: 150px;
+        background-color: #eee;
+        border-radius: 10px;
+        text-align: center;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .city {
+        font-size: 25px;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .temp {
+        font-size: 18px;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .description {
+        font-size: 16px;
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .icon {
+        width: 50px;
+        height: auto;
+        margin-top: 10px;
+    }
+</style>
+
+<body>
+    <input type="text" class="write">
+    <button>查询</button>
+
+    <div class="weather">
+        <span class="city"></span>
+        <span class="temp"></span>
+        <span class="description"></span>
+        <img class="icon" />
+    </div>
+
+    <script>
+        // var btn = document.querySelector("button");
+        // var txt = document.querySelector("input");
+        // btn.onclick = function () {
+        //     var val = txt.value;
+
+        let city = "beijing"; // 获取天气的城市
+        let apiKey = "277457618a0597703adc0fc68057ce5d"; // 替换为你自己的API Key
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&lang=zh_cn`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+                let cityName = data.name;
+                let temperature = Math.round(data.main.temp - 273.15);
+                let description = data.weather[0].description;
+                let iconCode = data.weather[0].icon;
+
+                document.querySelector(".city").textContent = cityName;
+                document.querySelector(".temp").textContent = `${temperature}°C`;
+                document.querySelector(".description").textContent = description;
+                document.querySelector(".icon").setAttribute("src", `http://openweathermap.org/img/w/${iconCode}.png`);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        // }
+    </script>
+</body>
+
+</html>
